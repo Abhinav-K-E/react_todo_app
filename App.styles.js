@@ -15,6 +15,19 @@ export default styles = StyleSheet.create({
         padding:10,
     },
     footer:{
-        height:60,
+        height:70,
+        flexDirection:'row',
+        alignItems:'center',
+        justifyContent:'space-between',
+        padding:20,
+        paddingRight:40,
+        paddingLeft:40,
+        borderTopEndRadius:20,
+        backgroundColor:'white',
+        borderTopStartRadius:20,
+    },
+    tab:{
+        alignItems:'center',
+        justifyContent:'center'
     }
 })

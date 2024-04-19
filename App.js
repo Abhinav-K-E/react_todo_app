@@ -1,5 +1,11 @@
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-import { ScrollView, Text, View } from 'react-native';
+import {
+  ScrollView,
+  Text,
+  Touchable,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 
 //importing styles
 import styles from './App.styles';
@@ -57,17 +63,32 @@ export default function App() {
     },
   ]);
 
+  const [selectedTab, setSelectedTab] = useState('All');
+
   // update isComplete
   const updateTodo = (todo) => {
     const updatedTodo = { ...todo, isCompleted: !todo.isCompleted };
-    const updatedList  = [...TodoList];
-    const updateIndex = updatedList.findIndex((item)=>item.id===updatedTodo.id);
+    const updatedList = [...TodoList];
+    const updateIndex = updatedList.findIndex(
+      (item) => item.id === updatedTodo.id
+    );
 
     updatedList[updateIndex] = updatedTodo;
     setTodoList(updatedList);
     console.log(updatedTodo);
   };
-  
+
+  const getFilteredList = () => {
+    switch (selectedTab) {
+      case 'All':
+        return TodoList;
+      case 'In progress':
+        return TodoList.filter((item) => item.isCompleted == false);
+      case 'Done':
+        return TodoList.filter((item) => item.isCompleted == true);
+    }
+  };
+
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.wrapper}>
@@ -76,13 +97,56 @@ export default function App() {
         </View>
         <View style={styles.body}>
           <ScrollView>
-            {TodoList.map((todo) => (
+            {getFilteredList().map((todo) => (
               <CardTodo todo={todo} key={todo.id} updateTodo={updateTodo} />
             ))}
           </ScrollView>
         </View>
         <View style={styles.footer}>
-          <Text>Footer</Text>
+          <TouchableOpacity
+            onPress={() => setSelectedTab('All')}
+            style={styles.tab}
+          >
+            <Text
+              style={
+                selectedTab == 'All' && { color: 'blue', fontWeight: '500' }
+              }
+            >
+              All
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => setSelectedTab('In progress')}
+            style={styles.tab}
+          >
+            <Text
+              style={
+                selectedTab == 'In progress' && {
+                  color: 'blue',
+                  fontWeight: '500',
+                }
+              }
+            >
+              In progress
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              setSelectedTab('Done');
+            }}
+            style={styles.tab}
+          >
+            <Text
+              style={
+                selectedTab == 'Done' && {
+                  color: 'blue',
+                  fontWeight: '500',
+                }
+              }
+            >
+              Done
+            </Text>
+          </TouchableOpacity>
         </View>
       </SafeAreaView>
     </SafeAreaProvider>
