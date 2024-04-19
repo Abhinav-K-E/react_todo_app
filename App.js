@@ -4,12 +4,14 @@ import { Text, View } from "react-native";
 //importing styles
 import styles from './App.styles'
 
+import Header from './components/Header'
+
 export default function App(){
   return(
     <SafeAreaProvider>
       <SafeAreaView style={styles.wrapper}>
         <View style={styles.header}>
-          <Text>Header</Text>
+          <Header/>
         </View>
         <View style={styles.body}>
           <Text>Body</Text>
