@@ -2,6 +2,18 @@ import { StyleSheet } from "react-native";
 
 export default styles = StyleSheet.create({
     wrapper:{
-        padding:20
+        width:'100%',
+        height:'100%',
+        backgroundColor:'#f6f6f6',
+        justifyContent:"space-between",
+    },
+    header:{
+        flex:1,
+    },
+    body:{
+        flex:5,
+    },
+    footer:{
+        height:60,
     }
 })
