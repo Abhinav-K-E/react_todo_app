@@ -13,7 +13,6 @@ export default styles = StyleSheet.create({
     body:{
         flex:5,
         padding:10,
-        gap:20,
     },
     footer:{
         height:60,

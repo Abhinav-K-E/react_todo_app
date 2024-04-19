@@ -2,9 +2,12 @@ import { TouchableOpacity, Text, View, Image } from 'react-native';
 import { styles } from './CardTodo.styles';
 
 import CHECK from '../../assets/check.png';
-const CardTodo = ({ todo }) => {
+
+const CardTodo = ({ todo , updateTodo }) => {
   return (
-    <TouchableOpacity style={styles.card}>
+    <TouchableOpacity 
+    onPress={()=>updateTodo(todo)}
+    style={styles.card}>
       <View>
         <Text
           style={todo.isCompleted ? [styles.txt, styles.strike] : styles.txt}

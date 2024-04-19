@@ -10,7 +10,8 @@ export const styles = StyleSheet.create({
         elevation:4,
         alignItems:'center',
         justifyContent:'space-between',
-        padding:20
+        padding:20,
+        marginBottom:20,
     },
     check:{
         width:24,
