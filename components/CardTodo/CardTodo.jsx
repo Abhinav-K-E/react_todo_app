@@ -3,9 +3,10 @@ import { styles } from './CardTodo.styles';
 
 import CHECK from '../../assets/check.png';
 
-const CardTodo = ({ todo , updateTodo }) => {
+const CardTodo = ({ todo , updateTodo , deleteTodo }) => {
   return (
     <TouchableOpacity 
+    onLongPress={()=>deleteTodo(todo)}
     onPress={()=>updateTodo(todo)}
     style={styles.card}>
       <View>

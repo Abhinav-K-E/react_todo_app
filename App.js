@@ -1,5 +1,6 @@
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import {
+  Alert,
   ScrollView,
   Text,
   Touchable,
@@ -89,6 +90,24 @@ export default function App() {
     }
   };
 
+  const deleteTodo = (todo) => {
+    console.log(todo.id)
+    Alert.alert('Delete Todo', 'Are you sure ? ', [
+      {
+        text: 'Cancel',
+        onPress: () => {},
+        style: '',
+      },
+      {
+        text: 'OK',
+        onPress: () => {
+          const updatedList = TodoList.filter((item)=>item.id!=todo.id);
+          setTodoList(updatedList);
+        },
+      },
+    ]);
+  };
+
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.wrapper}>
@@ -98,7 +117,12 @@ export default function App() {
         <View style={styles.body}>
           <ScrollView>
             {getFilteredList().map((todo) => (
-              <CardTodo todo={todo} key={todo.id} updateTodo={updateTodo} />
+              <CardTodo
+                todo={todo}
+                key={todo.id}
+                deleteTodo={deleteTodo}
+                updateTodo={updateTodo}
+              />
             ))}
           </ScrollView>
         </View>
