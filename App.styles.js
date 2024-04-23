@@ -6,6 +6,7 @@ export default styles = StyleSheet.create({
         height:'100%',
         backgroundColor:'#f6f6f6',
         justifyContent:"space-between",
+        position:'relative'
     },
     header:{
         flex:1,

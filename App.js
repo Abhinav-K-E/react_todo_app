@@ -8,12 +8,17 @@ import {
   View,
 } from 'react-native';
 
+import Dialog from 'react-native-dialog';
+
 //importing styles
 import styles from './App.styles';
 
 import Header from './components/Header';
 import CardTodo from './components/CardTodo/CardTodo';
 import { useState } from 'react';
+import { AddButton } from './components/AddButton/AddButton';
+
+import uuid from 'react-native-uuid';
 
 export default function App() {
   const [TodoList, setTodoList] = useState([
@@ -65,6 +70,8 @@ export default function App() {
   ]);
 
   const [selectedTab, setSelectedTab] = useState('All');
+  const [showAddDialog, setShowAddDialog] = useState(false);
+  const [inputText, setInputText] = useState('');
 
   // update isComplete
   const updateTodo = (todo) => {
@@ -91,7 +98,7 @@ export default function App() {
   };
 
   const deleteTodo = (todo) => {
-    console.log(todo.id)
+    console.log(todo.id);
     Alert.alert('Delete Todo', 'Are you sure ? ', [
       {
         text: 'Cancel',
@@ -101,11 +108,25 @@ export default function App() {
       {
         text: 'OK',
         onPress: () => {
-          const updatedList = TodoList.filter((item)=>item.id!=todo.id);
+          const updatedList = TodoList.filter((item) => item.id != todo.id);
           setTodoList(updatedList);
         },
       },
     ]);
+  };
+
+  const showAdd = () => {
+    setShowAddDialog(true);
+  };
+
+  const addTodo = () => {
+    const newTodo = {
+      id: uuid.v4(),
+      title: inputText,
+      isCompleted: false,
+    };
+    setTodoList((prev) => [newTodo, ...prev]);
+    setShowAddDialog(false);
   };
 
   return (
@@ -125,6 +146,7 @@ export default function App() {
               />
             ))}
           </ScrollView>
+          <AddButton showAdd={showAdd} />
         </View>
         <View style={styles.footer}>
           <TouchableOpacity
@@ -171,6 +193,25 @@ export default function App() {
               Done
             </Text>
           </TouchableOpacity>
+          <View>
+            <Dialog.Container
+              onBackdropPress={() => setShowAddDialog(false)}
+              visible={showAddDialog}
+            >
+              <Dialog.Title>Add Todo</Dialog.Title>
+              <Dialog.Description>Add your task ⚡</Dialog.Description>
+              <Dialog.Input
+                onChangeText={(text) => setInputText(text)}
+                placeholder='Ex : New task'
+              />
+              <Dialog.Button
+                onPress={() => setShowAddDialog(false)}
+                label='Cancel'
+                color='grey'
+              />
+              <Dialog.Button label='save' onPress={addTodo} />
+            </Dialog.Container>
+          </View>
         </View>
       </SafeAreaView>
     </SafeAreaProvider>
