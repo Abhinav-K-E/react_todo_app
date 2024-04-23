@@ -15,59 +15,20 @@ import styles from './App.styles';
 
 import Header from './components/Header';
 import CardTodo from './components/CardTodo/CardTodo';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AddButton } from './components/AddButton/AddButton';
 
 import uuid from 'react-native-uuid';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 export default function App() {
-  const [TodoList, setTodoList] = useState([
-    {
-      id: 1,
-      title: 'task01',
-      isCompleted: true,
-    },
-    {
-      id: 2,
-      title: 'task02',
-      isCompleted: false,
-    },
-    {
-      id: 3,
-      title: 'task03',
-      isCompleted: true,
-    },
-    {
-      id: 4,
-      title: 'task01',
-      isCompleted: true,
-    },
-    {
-      id: 5,
-      title: 'task02',
-      isCompleted: false,
-    },
-    {
-      id: 6,
-      title: 'task03',
-      isCompleted: true,
-    },
-    {
-      id: 7,
-      title: 'task01',
-      isCompleted: true,
-    },
-    {
-      id: 8,
-      title: 'task02',
-      isCompleted: false,
-    },
-    {
-      id: 9,
-      title: 'task03',
-      isCompleted: true,
-    },
-  ]);
+  const [TodoList, setTodoList] = useState([]);
+
+  // fetch from async storage
+  useEffect(()=>{
+    loadData();
+  },[])
 
   const [selectedTab, setSelectedTab] = useState('All');
   const [showAddDialog, setShowAddDialog] = useState(false);
@@ -127,7 +88,30 @@ export default function App() {
     };
     setTodoList((prev) => [newTodo, ...prev]);
     setShowAddDialog(false);
+    setInputText('');
   };
+
+  // for async storage
+  const loadData = async () => {
+    console.log('load');
+    try {
+      const todos = await AsyncStorage.getItem('todos');
+      setTodoList((JSON.parse(todos)) || []);
+    } catch (err) {}
+  };
+
+  const saveData = async () => {
+    console.log('save');
+    try {
+      await AsyncStorage.setItem('todos', JSON.stringify(TodoList));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    saveData();
+  }, [TodoList]);
 
   return (
     <SafeAreaProvider>
