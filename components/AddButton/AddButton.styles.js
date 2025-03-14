@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 export const styles = StyleSheet.create({
     AddBtn:{
         position:'absolute',
-        bottom:20,
+        bottom:50,
         right:20,
         alignItems:'center',
         justifyContent:'center',
